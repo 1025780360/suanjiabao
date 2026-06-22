@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views.static import serve
 from costing.views import CostingChatView
 
@@ -52,32 +52,25 @@ def serve_frontend(request, path=""):
     import os
     index_path = settings.BASE_DIR / "frontend-dist" / "index.html"
     if not os.path.exists(index_path):
-        return HttpResponse("Frontend not built. Run: cd frontend && npm run build", status=500)
+        return HttpResponse("Frontend not built.", status=500)
     with open(index_path, "r", encoding="utf-8") as f:
         html = f.read()
-    # 注入 API base URL
-    html = html.replace(
-        "</head>",
-        f'<script>window.VITE_API_BASE_URL="{settings.SITE_URL}/api"</script></head>'
-    )
     return HttpResponse(html, content_type="text/html; charset=utf-8")
 
 
 urlpatterns = [
+    path('', serve_frontend, name='index'),
     path('admin/', admin.site.urls),
     path('api/health/', health_check, name='health-check'),
     path('api/downloads/android-apk/', download_android_apk, name='download-android-apk'),
     path('api/auth/', include('accounts.urls')),
     path('api/costing/', include('costing.urls')),
     path('api/ai/costing-chat/', CostingChatView.as_view(), name='ai-costing-chat'),
-    # 前端静态资源（JS/CSS/图片等）
-    re_path(r'^assets/.*$', serve, {'document_root': settings.BASE_DIR / 'frontend-dist' / 'assets'}),
+    path('assets/<path:path>', serve, {'document_root': settings.BASE_DIR / 'frontend-dist' / 'assets'}),
     path('favicon.svg', serve, {'document_root': settings.BASE_DIR / 'frontend-dist', 'path': 'favicon.svg'}),
     path('app-icon.svg', serve, {'document_root': settings.BASE_DIR / 'frontend-dist', 'path': 'app-icon.svg'}),
     path('manifest.webmanifest', serve, {'document_root': settings.BASE_DIR / 'frontend-dist', 'path': 'manifest.webmanifest'}),
-    path('icons.svg', serve, {'document_root': settings.BASE_DIR / 'frontend-dist', 'path': 'icons.svg'}),
-    # 前端 SPA：所有非 API 路由返回 index.html
-    re_path(r'^(?!api/|admin/|media/).*$', serve_frontend),
+    path('<path:path>', serve_frontend),
 ]
 
 if settings.DEBUG:

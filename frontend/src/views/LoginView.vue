@@ -31,20 +31,8 @@ function validate(): boolean {
 
   // 密码
   const pwd = authForm.password
-  if (pwd.length < 6 || pwd.length > 20) {
-    captchaError.value = '密码需要6-20位'
-    return false
-  }
-  if (!/[a-zA-Z]/.test(pwd)) {
-    captchaError.value = '密码必须包含字母'
-    return false
-  }
-  if (!/[0-9]/.test(pwd)) {
-    captchaError.value = '密码必须包含数字'
-    return false
-  }
-  if (/[^a-zA-Z0-9]/.test(pwd)) {
-    captchaError.value = '密码不允许使用特殊符号'
+  if (pwd.length < 6) {
+    captchaError.value = '密码至少需要6位'
     return false
   }
 

@@ -1,0 +1,16 @@
+{
+    "cookies":  [
+
+                ],
+    "origins":  [
+                    {
+                        "localStorage":  [
+                                             {
+                                                 "value":  "9a4cc7a2b6496df6e1d95115f3702b231ddd6ee0",
+                                                 "name":  "garment_token"
+                                             }
+                                         ],
+                        "origin":  "http://127.0.0.1:5173"
+                    }
+                ]
+}

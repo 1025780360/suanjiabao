@@ -1,0 +1,353 @@
+:root {
+  --keyboard-inset: 0px;
+  --ink: #07110d;
+  --ink-2: #0e2f24;
+  --ink-3: #174a39;
+  --porcelain: #fbf2df;
+  --porcelain-2: #eadcc0;
+  --paper: #fffaf1;
+  --paper-2: #f3e7cf;
+  --text: #172018;
+  --muted: #6f7768;
+  --line: rgba(45, 61, 49, 0.13);
+  --gold: #bd8b39;
+  --gold-2: #f0d188;
+  --sage: #d6e0ca;
+  --danger: #a13a31;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --shadow: 0 22px 48px rgba(26, 36, 27, 0.14);
+  --soft-shadow: 0 10px 26px rgba(31, 42, 30, 0.09);
+  --panel-gradient: linear-gradient(145deg, rgba(255, 251, 242, 0.98), rgba(241, 231, 209, 0.96));
+  --gold-gradient: linear-gradient(145deg, #f3d891 0%, #d3a24c 56%, #a9702b 100%);
+  --ink-gradient: linear-gradient(145deg, #0b3d2d 0%, #11523c 54%, #0a2b20 100%);
+  --dark-panel: linear-gradient(145deg, #071712 0%, #0e3629 54%, #3f3518 100%);
+  font-family:
+    "Avenir Next",
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    "HarmonyOS Sans SC",
+    "Noto Sans SC",
+    Arial,
+    sans-serif;
+  color: var(--text);
+  background: var(--porcelain);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 全局平滑滚动 */
+* {
+  scroll-behavior: smooth;
+}
+
+/* iOS 输入框优化 */
+input, textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+html {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--porcelain);
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100dvh;
+  margin: 0;
+  min-width: 320px;
+  overflow: hidden;
+  background: var(--porcelain);
+  touch-action: manipulation;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  font: inherit;
+  min-width: 44px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+#app {
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--porcelain);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.app-view .page,
+.app-view .quote-page,
+.app-view .ai-page,
+.app-view .login-shell {
+  color: var(--text);
+}
+
+.app-view {
+  background:
+    radial-gradient(circle at 82% 4%, rgba(225, 184, 91, 0.2), transparent 26%),
+    radial-gradient(circle at 6% 76%, rgba(16, 76, 54, 0.1), transparent 30%),
+    linear-gradient(180deg, var(--porcelain) 0%, #f5ead3 58%, #ecdec0 100%);
+}
+
+.app-view .nav h2,
+.app-view .quote-header h2,
+.app-view .ai-header h2,
+.app-view .hello,
+.app-view .section-head b,
+.app-view .quote-header span,
+.app-view .ai-header span,
+.app-view .ai-header p {
+  color: var(--text) !important;
+}
+
+.app-view .hello,
+.app-view .quote-header span,
+.app-view .ai-header span,
+.app-view .ai-header p,
+.app-view .section-head span,
+.app-view .formula-note {
+  color: var(--muted) !important;
+}
+
+.app-view .hero-card,
+.app-view .profile-card,
+.app-view .result-hero {
+  border: 1px solid rgba(239, 208, 131, 0.22);
+  background:
+    radial-gradient(circle at 84% 12%, rgba(242, 203, 113, 0.28), transparent 29%),
+    var(--dark-panel);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.app-view .action-card,
+.app-view .style-item,
+.app-view .empty-state,
+.app-view .price-main,
+.app-view .summary-side div,
+.app-view .cost-panel,
+.app-view .style-name-field,
+.app-view .category-grid button,
+.app-view .custom-category,
+.app-view .profile-stats article,
+.app-view .profile-panel,
+.app-view .metric-grid article,
+.app-view .profit-strip div,
+.app-view .draft-card,
+.app-view .assistant .bubble,
+.app-view .auth-card {
+  border: 1px solid var(--line);
+  background: var(--panel-gradient);
+  box-shadow: var(--soft-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.app-view .icon-btn,
+.app-view .finish-btn,
+.app-view .photo-actions button:first-child,
+.app-view .input-box button,
+.app-view .ai-header strong,
+.app-view .avatar-mark,
+.app-view .brand-badge,
+.app-view .card-actions button:first-child,
+.app-view .style-option,
+.app-view .quote-footer button,
+.app-view .primary-btn {
+  color: #15160f;
+  background: var(--gold-gradient);
+  box-shadow: 0 14px 28px rgba(179, 127, 43, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.app-view input,
+.app-view textarea,
+.app-view .line-fields em,
+.app-view .expense-row em {
+  border-color: rgba(89, 106, 85, 0.26);
+  background: var(--paper);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.app-view input:focus,
+.app-view textarea:focus,
+.app-view .line-fields em:focus-within,
+.app-view .expense-row em:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 149, 62, 0.18);
+}
+
+.app-view button,
+.app-view [role="button"],
+.bottom-bar button {
+  transition:
+    transform 180ms ease,
+    filter 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.app-view button:active,
+.bottom-bar button:active {
+  transform: scale(0.98);
+}
+
+.app-view button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.app-view input,
+.app-view textarea,
+.app-view button {
+  caret-color: var(--gold);
+}
+
+.app-view input::placeholder,
+.app-view textarea::placeholder {
+  color: rgba(18, 27, 21, 0.35);
+}
+
+.app-view .page,
+.app-view .quote-page,
+.app-view .ai-page {
+  isolation: isolate;
+}
+
+.app-view .page::before,
+.app-view .quote-page::before,
+.app-view .ai-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(53, 67, 53, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 67, 53, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(180deg, #000, transparent 82%);
+}
+
+.app-view .nav,
+.app-view .quote-header,
+.app-view .ai-header {
+  padding-top: 2px;
+}
+
+.app-view .nav h2,
+.app-view .quote-header h2,
+.app-view .ai-header h2 {
+  letter-spacing: -0.035em !important;
+  text-wrap: balance;
+}
+
+.app-view .hero-card,
+.app-view .profile-card,
+.app-view .result-hero,
+.app-view .price-main,
+.app-view .cost-panel,
+.app-view .profile-panel,
+.app-view .draft-card {
+  backdrop-filter: blur(10px);
+}
+
+.app-view .action-card,
+.app-view .category-grid button,
+.app-view .asset-grid button,
+.app-view .result-actions button,
+.app-view .card-actions button,
+.app-view .photo-actions button {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-view .action-card::after,
+.app-view .category-grid button::after,
+.app-view .asset-grid button::after,
+.app-view .result-actions button::after,
+.app-view .photo-actions button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.28), transparent 38%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.app-view .action-card:hover::after,
+.app-view .category-grid button:hover::after,
+.app-view .asset-grid button:hover::after,
+.app-view .result-actions button:hover::after,
+.app-view .photo-actions button:hover::after {
+  opacity: 1;
+}
+
+.app-view .line-total,
+.app-view .draft-info,
+.app-view .cost-grid div,
+.app-view .profit-row div,
+.app-view .expense-row {
+  background: rgba(255, 255, 255, 0.56) !important;
+  border-color: rgba(45, 61, 49, 0.08) !important;
+}
+
+.app-view .quote-footer,
+.app-view .chat-input {
+  border-top-color: rgba(226, 195, 130, 0.14) !important;
+  background:
+    radial-gradient(circle at 84% 0%, rgba(231, 187, 91, 0.18), transparent 34%),
+    linear-gradient(145deg, #07110d, #0b2018) !important;
+}
+
+.app-view .camera-area {
+  background:
+    linear-gradient(180deg, rgba(7, 17, 13, 0.02), rgba(7, 17, 13, 0.5)),
+    radial-gradient(circle at 76% 18%, rgba(248, 221, 161, 0.26), transparent 30%),
+    linear-gradient(135deg, #d4c09a, #47553f) !important;
+}
+
+.app-view .style-list,
+.app-view .quote-scroll,
+.app-view .chat-body,
+.app-view .category-grid {
+  scroll-padding-bottom: 18px;
+}
+
+.app-view strong,
+.app-view b,
+.app-view .price-main strong,
+.app-view .result-hero strong {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

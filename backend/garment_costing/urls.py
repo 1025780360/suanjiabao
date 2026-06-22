@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
+from django.shortcuts import redirect
 from django.urls import include, path
 from django.views.static import serve
 from costing.views import CostingChatView
@@ -34,7 +35,7 @@ def health_check(request):
 
 
 def download_android_apk(request):
-    apk_path = settings.BASE_DIR.parent / "frontend" / "public" / "downloads" / "garment-costing.apk"
+    apk_path = settings.BASE_DIR / "frontend-dist" / "downloads" / "garment-costing.apk"
     if not apk_path.exists():
         raise Http404("APK file not found")
     response = FileResponse(
@@ -60,6 +61,7 @@ def serve_frontend(request, path=""):
 
 urlpatterns = [
     path('', serve_frontend, name='index'),
+    path('admin', lambda request: redirect('/admin/', permanent=True)),
     path('admin/', admin.site.urls),
     path('api/health/', health_check, name='health-check'),
     path('api/downloads/android-apk/', download_android_apk, name='download-android-apk'),

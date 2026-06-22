@@ -4,7 +4,7 @@ function getDefaultBaseUrl() {
   const { protocol, hostname } = window.location
   if (protocol === 'capacitor:') return 'http://192.168.1.7:8000/api'
   if (hostname === 'localhost' || hostname === '127.0.0.1') return 'http://127.0.0.1:8000/api'
-  return `${protocol}//${hostname}:8000/api`
+  return `${window.location.origin}/api`
 }
 
 export const http = axios.create({

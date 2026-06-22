@@ -192,7 +192,8 @@ export function roundAmount(value: number) {
 function getImageUrl(item: any): string {
   // New file upload: construct full media URL
   if (item.image) {
-    const base = import.meta.env.VITE_API_BASE_URL || `http://${window.location.hostname}:8000`
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    const base = import.meta.env.VITE_API_BASE_URL || (isLocal ? 'http://127.0.0.1:8000' : window.location.origin)
     return `${base.replace(/\/api\/?$/, '')}${item.image}`
   }
   // Legacy Base64 data

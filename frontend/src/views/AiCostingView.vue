@@ -65,10 +65,6 @@ const importableStyles = computed(() => {
     })
 })
 
-const latestDraftMessage = computed(() =>
-  [...messages.value].reverse().find((item) => item.role === 'assistant' && item.costDraft && !item.needMoreInfo),
-)
-
 function canShowDraftCard(message: ChatMessage) {
   return Boolean(
     message.role === 'assistant' &&
@@ -239,18 +235,6 @@ async function sendMessage(text?: string) {
   } finally {
     isSending.value = false
     scrollToBottom()
-  }
-}
-
-function styleToDraft(style: any) {
-  return {
-    styleName: style.name,
-    category: style.category,
-    fabrics: style.fabrics || [],
-    processes: style.processes || [],
-    accessoryPack: style.accessoryPack || 2.2,
-    expectedProfit: style.expectedProfit || null,
-    quantity: 100,
   }
 }
 

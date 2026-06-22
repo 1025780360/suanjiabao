@@ -38,7 +38,7 @@ function goAllStyles() {
 }
 
 // ── 左滑删除 ──
-function onTouchStart(e: TouchEvent, id: number) {
+function onTouchStart(e: TouchEvent) {
   touchStartX = e.touches[0].clientX
 }
 
@@ -126,7 +126,7 @@ async function onDelete(style: any) {
           :key="item.id"
           class="swipe-row"
           :class="{ swiped: swipedId === item.id }"
-          @touchstart.passive="onTouchStart($event, item.id)"
+          @touchstart.passive="onTouchStart($event)"
           @touchend.passive="onTouchEnd($event, item.id)"
         >
           <button class="swipe-del" type="button" @click.stop="onDelete(item)">

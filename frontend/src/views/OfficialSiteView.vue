@@ -31,7 +31,10 @@ const primaryAction = computed(() => {
   }
 })
 
-const apkUrl = `${window.location.protocol}//${window.location.hostname}:8000/api/downloads/android-apk/`
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const apkUrl = isLocal
+  ? 'http://127.0.0.1:8000/api/downloads/android-apk/'
+  : `${window.location.origin}/api/downloads/android-apk/`
 
 function handlePrimaryAction() {
   if (deviceKind.value === 'ios') {

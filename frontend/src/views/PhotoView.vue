@@ -28,7 +28,6 @@ async function onAddCustomCategory() {
 }
 
 function previewImage(key: string) { imagePreview.value = getCategoryImage(key) }
-function clearPreview() { imagePreview.value = '' }
 
 function thumbFor(item: { key: string; name: string }) {
   const byKey = getCategoryImage(item.key)
@@ -44,7 +43,7 @@ watch(customCategoryName, (val) => {
 const deletingKey = ref('')
 let pressTimer: any = null
 
-function onTouchStart(e: TouchEvent, item: any) {
+function onTouchStart(item: any) {
   previewImage(item.key)
   if (item.ownerId !== 'system') {
     pressTimer = setTimeout(() => { deletingKey.value = item.key }, 600)
@@ -87,7 +86,7 @@ async function doDelete(item: any) {
             type="button"
             class="cat-btn"
             @click="onSelectCategory(item.key)"
-            @touchstart="onTouchStart($event, item)"
+            @touchstart="onTouchStart(item)"
             @touchend="onTouchEnd"
             @touchmove="onTouchMove"
             @contextmenu.prevent

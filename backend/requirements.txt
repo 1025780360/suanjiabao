@@ -1,6 +1,7 @@
 asgiref==3.11.1
 Django==5.2.15
 django-cors-headers==4.9.0
+dj-database-url==3.0.1
 djangorestframework==3.17.1
 et_xmlfile==2.0.0
 gunicorn==23.0.0

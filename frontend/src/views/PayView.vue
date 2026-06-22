@@ -2,7 +2,7 @@
 import { Close, Promotion, Service } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { getMembershipInfo, upgradePlan, http, getSupportChat, sendSupportMessage } from '../api/http'
+import { upgradePlan, http, getSupportChat, sendSupportMessage } from '../api/http'
 
 const route = useRoute()
 const router = useRouter()

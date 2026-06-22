@@ -1,3 +1,4 @@
+import base64
 from datetime import date, timedelta
 
 from django.utils import timezone
@@ -103,6 +104,13 @@ class MembershipInfoView(APIView):
 
 class UpgradePlanView(APIView):
     """提交付款申请 / 获取付款信息"""
+    def _payment_qr_image(self, request, method):
+        if method.qr_image_data:
+            return method.qr_image_data
+        if method.qr_image:
+            return request.build_absolute_uri(method.qr_image.url)
+        return ""
+
     def get(self, request):
         """获取收款方式"""
         from .models import PaymentMethod
@@ -112,7 +120,7 @@ class UpgradePlanView(APIView):
             methods.append({
                 "id": m.id,
                 "name": m.name,
-                "qr_image": request.build_absolute_uri(m.qr_image.url) if m.qr_image else "",
+                "qr_image": self._payment_qr_image(request, m),
                 "instructions": m.instructions,
             })
         return Response({"methods": methods})
@@ -125,7 +133,14 @@ class UpgradePlanView(APIView):
         if request.FILES.get("qr_image") and request.user.is_staff:
             name = request.data.get("name", "")
             instructions = request.data.get("instructions", "")
-            m = PaymentMethod.objects.create(name=name, instructions=instructions, qr_image=request.FILES["qr_image"])
+            image_file = request.FILES["qr_image"]
+            content_type = image_file.content_type or "application/octet-stream"
+            image_data = base64.b64encode(image_file.read()).decode("ascii")
+            m = PaymentMethod.objects.create(
+                name=name,
+                instructions=instructions,
+                qr_image_data=f"data:{content_type};base64,{image_data}",
+            )
             return Response({"ok": True, "id": m.id})
 
         # 付款申请

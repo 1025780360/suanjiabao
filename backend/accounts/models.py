@@ -172,6 +172,7 @@ class PaymentMethod(models.Model):
     """管理员配置的收款方式"""
     name = models.CharField("方式名称", max_length=80)
     qr_image = models.ImageField("收款码图片", upload_to="payment_qr/", blank=True)
+    qr_image_data = models.TextField("收款码图片数据", blank=True)
     instructions = models.TextField("付款说明", blank=True)
     is_active = models.BooleanField("启用", default=True)
 

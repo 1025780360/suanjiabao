@@ -422,37 +422,19 @@ async function saveCurrentStyle() {
   const name = form.styleName.trim() || '未命名款式'
 
   try {
-    // Use FormData if there's a file, otherwise JSON
-    let saved: any
-    if (imageFile.value) {
-      const fd = new FormData()
-      fd.append('name', name)
-      fd.append('category', currentCategoryName.value)
-      fd.append('image', imageFile.value)
-      fd.append('fabrics', JSON.stringify(form.fabrics))
-      fd.append('processes', JSON.stringify(form.processes))
-      fd.append('accessory_pack', String(roundAmount(form.accessoryPack)))
-      fd.append('expected_profit', String(roundAmount(form.expectedProfit)))
-      fd.append('minimum_price', String(roundAmount(minimumPrice.value)))
-      fd.append('quote_price', String(roundAmount(suggestedPrice.value)))
-      fd.append('total_cost', String(roundAmount(singleCost.value)))
-      fd.append('profit', String(roundAmount(singleProfit.value)))
-      saved = await createQuickStyle(fd)
-    } else {
-      saved = await createQuickStyle({
-        name,
-        category: currentCategoryName.value,
-        image_data: imagePreview.value,
-        fabrics: form.fabrics,
-        processes: form.processes,
-        accessory_pack: roundAmount(form.accessoryPack),
-        expected_profit: roundAmount(form.expectedProfit),
-        minimum_price: roundAmount(minimumPrice.value),
-        quote_price: roundAmount(suggestedPrice.value),
-        total_cost: roundAmount(singleCost.value),
-        profit: roundAmount(singleProfit.value),
-      })
-    }
+    const saved = await createQuickStyle({
+      name,
+      category: currentCategoryName.value,
+      image_data: imagePreview.value,
+      fabrics: form.fabrics,
+      processes: form.processes,
+      accessory_pack: roundAmount(form.accessoryPack),
+      expected_profit: roundAmount(form.expectedProfit),
+      minimum_price: roundAmount(minimumPrice.value),
+      quote_price: roundAmount(suggestedPrice.value),
+      total_cost: roundAmount(singleCost.value),
+      profit: roundAmount(singleProfit.value),
+    })
 
     const item = mapApiStyle(saved)
     savedStyles.value = [
@@ -537,7 +519,7 @@ function handleImageChange(event: Event) {
   const input = event.target as HTMLInputElement
   const file = input.files?.[0]
   if (!file) return
-  imageFile.value = file
+  imageFile.value = null
   const reader = new FileReader()
   reader.onload = () => {
     imagePreview.value = String(reader.result || '')

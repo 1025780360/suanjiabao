@@ -13,17 +13,19 @@ class Command(BaseCommand):
         password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
         display_name = os.getenv("DJANGO_SUPERUSER_DISPLAY_NAME", "Admin")
 
-        if User.objects.filter(is_superuser=True).exists():
-            self.stdout.write("Superuser already exists; skipped.")
-            return
-
         if not password:
             self.stdout.write(self.style.WARNING("DJANGO_SUPERUSER_PASSWORD is not set; skipped."))
             return
 
-        User.objects.create_superuser(
-            username=username,
-            password=password,
-            display_name=display_name,
-        )
+        user = User.objects.filter(username=username).first()
+        if user:
+            user.is_staff = True
+            user.is_superuser = True
+            user.display_name = display_name or user.display_name
+            user.set_password(password)
+            user.save()
+            self.stdout.write(self.style.SUCCESS(f"Updated superuser: {username}"))
+            return
+
+        User.objects.create_superuser(username=username, password=password, display_name=display_name)
         self.stdout.write(self.style.SUCCESS(f"Created superuser: {username}"))

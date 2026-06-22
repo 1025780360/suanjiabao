@@ -327,7 +327,13 @@ async function submitAuth() {
     applyUser(payload.user)
     await loadDatabaseData()
   } catch (error: any) {
-    authError.value = error?.response?.data?.detail || error?.response?.data?.non_field_errors?.[0] || '账号或密码不正确'
+    const data = error?.response?.data || {}
+    const firstFieldError = Object.values(data).flat?.()[0]
+    authError.value =
+      data.detail ||
+      data.non_field_errors?.[0] ||
+      (typeof firstFieldError === 'string' ? firstFieldError : '') ||
+      (authMode.value === 'register' ? '注册失败，请检查手机号和密码' : '账号或密码不正确')
   }
 }
 

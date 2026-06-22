@@ -8,10 +8,10 @@ const { authMode, authError, authForm, submitAuth, resetAuthForm } = useStore()
 const submitting = ref(false)
 const isRegister = ref(authMode.value === 'register')
 
-// 验证码
 const captchaCode = ref('')
 const captchaInput = ref('')
 const captchaError = ref('')
+
 function generateCaptcha() {
   captchaCode.value = String(Math.floor(1000 + Math.random() * 9000))
   captchaInput.value = ''
@@ -22,35 +22,33 @@ generateCaptcha()
 function validate(): boolean {
   captchaError.value = ''
 
-  // 手机号（登录和注册都需要）
   const phone = authForm.username.trim()
   if (!/^1[3-9]\d{9}$/.test(phone)) {
-    captchaError.value = '请输入正确的11位中国手机号'
+    captchaError.value = '请输入正确的 11 位手机号'
     return false
   }
 
-  // 密码
-  const pwd = authForm.password
-  if (pwd.length < 6) {
-    captchaError.value = '密码至少需要6位'
+  if (authForm.password.length < 6) {
+    captchaError.value = '密码至少需要 6 位'
     return false
   }
 
-  // 验证码
   if (captchaInput.value !== captchaCode.value) {
     captchaError.value = '验证码错误，请重新输入'
     generateCaptcha()
     return false
   }
+
   return true
 }
 
-function toggleMode() {
+function setMode(mode: 'login' | 'register') {
+  if (authMode.value === mode) return
   resetAuthForm()
   captchaError.value = ''
   generateCaptcha()
-  isRegister.value = !isRegister.value
-  authMode.value = isRegister.value ? 'register' : 'login'
+  authMode.value = mode
+  isRegister.value = mode === 'register'
 }
 
 async function handleSubmit() {
@@ -74,21 +72,31 @@ async function handleSubmit() {
     </div>
 
     <form class="form-card" @submit.prevent="handleSubmit">
-      <!-- 手机号 -->
-      <div class="form-group">
-        <input v-model.trim="authForm.username"
-          type="tel" inputmode="numeric" maxlength="11"
-          placeholder="手机号" autocomplete="tel" />
+      <div class="mode-tabs" role="tablist" aria-label="登录注册切换">
+        <button :class="{ active: !isRegister }" type="button" @click="setMode('login')">登录</button>
+        <button :class="{ active: isRegister }" type="button" @click="setMode('register')">注册</button>
       </div>
 
-      <!-- 密码 -->
       <div class="form-group">
-        <input v-model="authForm.password"
+        <input
+          v-model.trim="authForm.username"
+          type="tel"
+          inputmode="numeric"
+          maxlength="11"
+          placeholder="手机号"
+          autocomplete="tel"
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          v-model="authForm.password"
           :autocomplete="isRegister ? 'new-password' : 'current-password'"
-          type="password" placeholder="密码（字母+数字，6-20位）" />
+          type="password"
+          placeholder="密码（至少 6 位）"
+        />
       </div>
 
-      <!-- 注册额外字段 -->
       <template v-if="isRegister">
         <div class="form-group">
           <input v-model.trim="authForm.displayName" placeholder="你的称呼，如：张老板" />
@@ -98,10 +106,8 @@ async function handleSubmit() {
         </div>
       </template>
 
-      <!-- 验证码 -->
       <div class="captcha-row">
-        <input v-model="captchaInput" type="text" inputmode="numeric" maxlength="4"
-          placeholder="验证码" autocomplete="off" />
+        <input v-model="captchaInput" type="text" inputmode="numeric" maxlength="4" placeholder="验证码" autocomplete="off" />
         <button type="button" class="captcha-box" @click="generateCaptcha">
           {{ captchaCode }}
         </button>
@@ -114,10 +120,6 @@ async function handleSubmit() {
         {{ submitting ? '处理中...' : isRegister ? '注册并进入' : '登录' }}
       </button>
     </form>
-
-    <button class="switch-btn" type="button" @click="toggleMode">
-      {{ isRegister ? '已有账号，去登录' : '没有账号？注册一个' }}
-    </button>
   </div>
 </template>
 
@@ -143,6 +145,18 @@ async function handleSubmit() {
   border-radius: 18px; background: linear-gradient(160deg, #fffef9, #f5ecd6);
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   flex-shrink: 0;
+}
+.mode-tabs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  padding: 4px; border-radius: 12px; background: rgba(189,139,57,0.12);
+}
+.mode-tabs button {
+  height: 36px; border: 0; border-radius: 9px; background: transparent;
+  color: rgba(23,19,12,0.55); font-size: 14px; font-weight: 900;
+}
+.mode-tabs button.active {
+  color: #1a1812; background: #fffdf7;
+  box-shadow: 0 4px 12px rgba(90,58,12,0.12);
 }
 .form-group input {
   width: 100%; height: 42px; padding: 0 12px;
@@ -179,10 +193,4 @@ async function handleSubmit() {
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 .submit-btn:disabled { opacity: 0.5; }
-
-.switch-btn {
-  border: 0; background: transparent;
-  color: rgba(255,246,224,0.5); font-size: 12px; font-weight: 800;
-  flex-shrink: 0;
-}
 </style>

@@ -1,8 +1,3 @@
 {
-  "app_dir": "backend",
-  "python": {
-    "entry": "manage.py"
-  },
-  "build_command": "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput",
-  "start_command": "gunicorn garment_costing.wsgi:application --bind 0.0.0.0:8080 --workers 2"
+  "app_dir": "backend"
 }
